@@ -4,8 +4,6 @@ from smiley import Smiley
 
 
 class Sad(Smiley):
-    BLUE = (0, 0, 255)
-
     def __init__(self):
         super().__init__(complexion=self.BLUE)
 

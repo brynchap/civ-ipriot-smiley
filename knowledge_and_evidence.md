@@ -80,15 +80,15 @@ python3 main.py
    | Object                   | Type                    |
    | ------------             | ----------------------- |
    | self.pixels              | list                    |
-   | A member of self.pixels  | any                     |
-   | self                     | instance                |
+   | A member of self.pixels  | Tuple                     |
+   | self                     | Smiley instance                |
 
 3. Examine the code for `smiley.py`, `sad.py`, and `happy.py`. Give an example of each of the following control structures using an example from **each** of these files. Include the first line and the line range:
 
    | Control Flow | File       | First line  | Line range  |
    | ------------ | ---------- | ----------- | ----------- |
    |  sequence    | smiley.py  | 1           | 39          |
-   |  selection   | sad.py     | 26          | 2           |
+   |  selection   | sad.py     | 30 `if wide_open:`          | 2           |
    |  iteration   | happy.py   | 21          | 2           |
 
 4. Though everything in Python is an object, it is sometimes said to have four "primitive" types. Examining the three files `smiley.py`, `sad.py`, and `happy.py`, identify which of the following types are used in any of these files, and give an example of each (use an example from the code, if applicable, otherwise provide an example of your own):
@@ -113,14 +113,14 @@ python3 main.py
 
    2. What statement(s) does it execute (consider the `super` call), and what is the result?
 
-   > The 'super().__init__()' statement initialises the base class's attributes, then the code executes the draw_mouth() and draw_eyes() methods for the current instance.
+   > The 'super().__init__()' statement initialises the base class's attributes, then the code executes the draw_mouth() and draw_eyes() methods for the current instance resulting in a Smiley with a happy expression being provided.
    >
 
 ### 2.3. Code style
 
 1. What code style is used in the code? Is it likely to be the same as the code style used in the SenseHat? Give to reasons as to why/why not:
 
-> PEP 8 is the coding style used in the code. It is also used in the SenseHat as PEP 8 is the most widely adopted coding style for python and helps the code be consistant and easy to read.
+> PEP 8 is the coding style used in the code. It is likely that SenseHat uses PEP 8 aswell as the code and SenseHat's code style use PEP 8's naming rules (using CamelCase and snake_case). Both also use PEP 8's whitespace and indentation rules, using blank lines to visually separate logical sections and function/method definitions.
 >
 
 2. List three aspects of this convention you see applied in the code.
@@ -153,7 +153,6 @@ python3 main.py
 | ---------- | ------------- | ---------------- |
 | NotReal    | Sub           | NotRealParent    |
 | Smiley     | Super         | N/A              |
-| SenseHat   | Super         | N/A              |
 | Blinkable  | Sub           | ABC              |
 | Happy      | Sub           | Smiley, Blinkable|
 | Sad        | Sub           | Smiley           |
@@ -215,7 +214,7 @@ Unlike the `Happy` smiley, the current implementation of the `Sad` smiley does n
 
 3. Referring to the implementation of blink in the Happy and Sad Smiley classes, give a brief explanation of what polymorphism is.
 
-> Polymorphism refers to the ability of different classes to implement the "same" methods to perform different behaviors. For example the implementation of blink in the Happy and Sad Smiley classes allows for the "blink()" method to be used in either of the classes but they perform different behaviours based on how the method is defined individually in the Happy and Sad class.
+> Polymorphism refers to the ability of different classes to implement a shared interface or inherit from a common superclass, allowing them to be used interchangeably through that common interface. For example, the implementation of blink() in the Happy class is a concrete implementation of the Blinkable abstract base class's interface. This allows any function expecting an object of type Blinkable to call blink() on a Happy object without needing to know its specific class type. The actual behavior (making the happy eyes "blink" by drawing them open and closed) is executed at runtime.
 >
 
 4. How is inheritance used in the blink method, and why is it important for polymorphism?
@@ -255,11 +254,11 @@ Include a screenshot of the sad smiley or the modified `main.py`:
 
   2. **Class Implementation:** `Blinkable` is a class intended to be implemented by other classes. What generic term describes this kind of class, which is designed for implementation by others? **Clue**: Notice the lack of any concrete implementation and the naming convention.
 
-  > Blinkable is an Abstract Base Class
+  > Interface
 
   3. **OO Principle Identification:** Regarding your answer to question (2), which Object-Oriented (OO) principle does this represent? Choose from the following and justify your answer in 1-2 sentences: Abstraction, Polymorphism, Inheritance, Encapsulation.
 
-  > This represents Inheritance as an Abstract Base Class is essentially a blueprint for any class inheriting from it, ensuring that they have the same methods and properties of the ABC.
+  > The OO Principle represented is abstraction. The Blinkable interface defines the concept of blinking which can be used by various classes such as `Happy` or `Sad, letting the programmer interact with it without needing to know how each different smiley actually performs the blink action.
 
   4. **Implementation Flexibility:** Explain why you could grant the Sad Smiley a blinking feature similar to the Happy Smiley's implementation, even without directly using `Blinkable`.
 
@@ -292,7 +291,7 @@ Include a screenshot of the sad smiley or the modified `main.py`:
 
   3. **Simple Method to Change Colors:**
   4. What is the easiest way you can think to change the smileys to green? Easiest, not necessarily the best!
-     > Changing `Y = self.YELLOW` to `Y = self.BLUE` in the Smiley Class. And changing `eyes = self.YELLOW` to `eyes = self.BLUE` when `wide_open` is False in the Sad Class.
+     > The easiest way to change all smileys to green is to modify the default complexion value in the Smiley class's `__init__` method in smiley.py from `def __init__(self, complexion = YELLOW):` to `def __init__(self, complexion = GREEN):`
 
 
   ### 3.2. Flexible Colors – Step 1
@@ -304,6 +303,8 @@ Include a screenshot of the sad smiley or the modified `main.py`:
   2. **Refactor subclasses to use the `complexion` method:** Modify any subclass that directly accesses the color variable to instead utilize the new `complexion` method. This ensures that color handling is centralized and can be easily modified in the future.
 
   3. **Determine the applicable Object-Oriented principle:** Consider whether Abstraction, Polymorphism, Inheritance, or Encapsulation best applies to the modifications made in this step.
+
+  > Encapsulation
 
   4. **Verify the implementation:** Ensure that the modifications function as expected. The smileys should still display in yellow, confirming that the new method correctly replaces the direct color references.
 
